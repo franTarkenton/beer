@@ -2,6 +2,8 @@
 from django.test import TestCase
 from api.models.BeerTypes import BeerTypes
 from api.models.BeerList import BeerList
+from django.contrib.auth.models import User
+
 
 class ModelTestCase(TestCase):
     """Beer List Model tests."""
@@ -10,8 +12,9 @@ class ModelTestCase(TestCase):
         """Define the test client and other test variables."""
         self.beerNameStr = "Red Racer"
         self.beerTypeStr = "India Pale Ale"
-        self.beerType = BeerTypes(beerType=self.beerTypeStr, beerTypeId=1)
-        self.beerList = BeerList(beerName=self.beerNameStr, beerType=self.beerType)
+        self.owner = User.objects.create(username="Lebowski")
+        self.beerType = BeerTypes(beerType=self.beerTypeStr, beerTypeId=1, owner=self.owner)
+        self.beerList = BeerList(beerName=self.beerNameStr, beerType=self.beerType, owner=self.owner)
 
     def test_create_BeerType(self):
         """verify that beer we can add records to the beer list"""

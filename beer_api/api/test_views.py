@@ -9,6 +9,7 @@ from rest_framework import status
 from django.urls import reverse
 from api.models.BeerTypes import BeerTypes
 from api.models.BeerList import BeerList
+from django.contrib.auth.models import User
 
 import logging
 
@@ -18,10 +19,18 @@ class ViewTestBeerTypeCreate(TestCase):
     def setUp(self):
         """Define the test client and other test variables."""
         self.logger = logging.getLogger(__name__)
-
+        
+        self.user = User.objects.create(username="Lebowski")
         self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
         self.beerTypeData = {'beerType': 'India Pale Ale', 
-                             'beerTypeId': 1}
+                             'beerTypeId': 1,
+                             'owner':self.user.id}
+        self.beerListData = {'beerName': 'Red Racer',
+                        'beerId': 1, 
+                        'beerType': self.beerTypeData['beerTypeId'], 
+                        'owner':self.user.id}
+
 
     def test_api_create_BeerType(self):
         """Can api create beertype."""
@@ -33,9 +42,6 @@ class ViewTestBeerTypeCreate(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
         
     def test_api_create_BeerList(self):
-#         self.beerTypeData = {'beerType': 'India Pale Ale5', 
-#                              'beerTypeId': 5}
- 
         response = self.client.post(
             reverse('CreateBeerTypeView'),
             self.beerTypeData,
@@ -43,17 +49,13 @@ class ViewTestBeerTypeCreate(TestCase):
         beerType = response.content
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         
-        
         beerTypeType = type(beerType) 
         self.logger.debug(f"response: {beerType}  {beerTypeType}")
         
-        beerListData = {'beerName': 'Red Racer',
-                        'beerId': 1, 
-                        'beerType': 1}
 
         response = self.client.post(
             reverse('CreateBeerListView'),
-            beerListData,
+            self.beerListData,
             format="json")
           
         self.logger.debug("test test test")
