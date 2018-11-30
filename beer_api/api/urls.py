@@ -4,13 +4,16 @@ Created on Nov. 28, 2018
 @author: kjnether
 '''
 
-from django.conf.urls import url, include
+from django.conf.urls import include
+from django.conf.urls import url
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework.authtoken.views import obtain_auth_token # add this import
-from .views import CreateBeerTypeView
+
 from .views import CreateBeerListView
-from .views import UserView
+from .views import CreateBeerTypeView
 from .views import UserDetailsView
+from .views import UserView
+
 
 urlpatterns = {
     url(r'^beertypes/$', CreateBeerTypeView.as_view(), name="CreateBeerTypeView"),
