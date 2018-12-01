@@ -8,6 +8,7 @@ ADD requirements.txt /beer
 RUN pip install -r requirements.txt
 ADD ./beer_api /beer/
 
+RUN python manage.py makemigrations
 RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
 
