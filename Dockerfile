@@ -10,6 +10,6 @@ ADD ./beer_api /beer/
 
 RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
-
-#ENTRYPOINT ["python", "/beer/manage.py", "runserver", "0.0.0.0:8000"]
+RUN chmod +x djangoinit.sh
+ENTRYPOINT ["python", "/beer/manage.py", "runserver", "0.0.0.0:8000"]
 EXPOSE 8000
