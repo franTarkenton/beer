@@ -100,6 +100,29 @@ DATABASES = {
 }
 
 
+if 'DB_NAME' in os.environ:
+    print('running prod db')
+    # postgres config
+    DATABASES['default'] = {
+            'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USER'],
+            'PASSWORD': os.environ['DB_PASSWD'],
+            'HOST': os.environ['DB_HOST'],
+            'PORT': os.environ['DB_PORT']
+    }
+#     DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#            'NAME': os.environ.get('DATABASENAME', ''),
+#            'USER': os.environ.get('DATABASEUSER', ''),
+#            'PASSWORD': os.environ.get('DATABASEPASSWORD', ''),
+#            'HOST': os.environ.get('DATABASEHOST', ''),
+#            'PORT': '5432',
+#   }
+
+    
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
