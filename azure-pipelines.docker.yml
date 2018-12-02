@@ -8,7 +8,16 @@ pool:
 
 variables:
   imageName: 'beerapi99:$(build.buildId)'
-
+  
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.6'
+    architecture: 'x64'
+    
+steps:
+- script: |
+    docker login -u $(dockerId) -p $(pswd)
+    docker push $(dockerId)/$(imageName)
   displayName: 'docker build'
+  
