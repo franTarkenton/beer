@@ -7,7 +7,7 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'beerApi:$(build.buildId)'
+  imageName: 'beerapi99:$(build.buildId)'
 
 steps:
 - script: docker build -f Dockerfile -t $(imageName) .
