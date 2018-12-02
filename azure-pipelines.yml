@@ -5,10 +5,7 @@
 
 pool:
   vmImage: 'Ubuntu 16.04'
-
-variables:
-  imageName: 'beerapi99:$(build.buildId)'
-  
+ 
 steps:
 - task: UsePythonVersion@0
   inputs:
