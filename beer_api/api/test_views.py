@@ -38,7 +38,7 @@ class ViewTestBeerTypeCreate(TestCase):
             reverse('CreateBeerTypeView'),
             self.beerTypeData,
             format="json")
-
+        beerTypes = BeerTypes.objects.get()
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
         
     def test_api_create_BeerList(self):
@@ -61,52 +61,83 @@ class ViewTestBeerTypeCreate(TestCase):
         self.logger.debug("test test test")
         self.logger.debug(f"self.response: {response.content}")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#                 
-#     def test_api_can_get_a_bucketlist(self):
-#         """Test the api can get a given bucketlist."""
-#         bucketlist = Bucketlist.objects.get()
-#         response = self.client.get(
-#             reverse('details',
-#             kwargs={'pk': bucketlist.id}), format="json")
-# 
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertContains(response, bucketlist)
+        
+    def test_api_get_BeerTypes(self):
+        """Test the api can get a given beertypes."""
+        # make sure a beer type record exists
+        self.test_api_create_BeerType()
+        beerTypes = BeerTypes.objects.get()
+        self.logger.debug(f"beertypes: {beerTypes}, {beerTypes.beerTypeId}")
+        response = self.client.get(
+            reverse('BeerTypesDetails',
+            kwargs={'pk': beerTypes.beerTypeId}), format="json")
+  
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, beerTypes)
+        
+    def test_api_update_BeerTypes(self):
+        """Test api can update a beertypes."""
+        self.test_api_create_BeerType()
+        beerTypes = BeerTypes.objects.get()
+        changeBeerType = {'beerType': 'Belgian yuck'}
+        res = self.client.put(
+            reverse('BeerTypesDetails', kwargs={'pk': beerTypes.beerTypeId}),
+            changeBeerType, format='json'
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        
+    def test_api_delete_BeerTypes(self):
+        """api can delete a beertypes."""
+        self.test_api_create_BeerType()
+        beerTypes = BeerTypes.objects.get()
+        self.logger.debug(f"beerTypes: {beerTypes}")
+        response = self.client.delete(
+            reverse('BeerTypesDetails', kwargs={'pk': beerTypes.beerTypeId}),
+            format='json',
+            follow=True)
 
-        
-        
-        
-        
-# class ViewTestBeerListCreate(TestCase):
-#     """Test suite for the api views."""
-# 
-#     def setUp(self):
-#         """Define the test client and other test variables."""
-#         self.logger = logging.getLogger(__name__)
-# 
-#         self.client = APIClient()
-#         self.beerTypeData = {'beerType': 'India Pale Ale5', 
-#                              'beerTypeId': 5}
-#         #self.response = self.client.post(
-#         #    reverse('CreateBeerTypeView'),
-#         #    self.beerTypeData,
-#         #    format="json")
-#         #print(f'self.response {self.response.content}')
-#         # now create the beer list item with the relationship back to 
-#         # this item.
-#         self.beerListData = {'beerName': 'Red Racer',
-#                              'beerId': 1, 
-#                              'beerType': self.beerTypeData }
+        self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+    def test_api_get_BeerList(self):
+        """Test the api can get a given beertypes."""
+        # make sure a beer type record exists
+        self.test_api_create_BeerList()
+        beerList = BeerList.objects.get()
+        self.logger.debug(f"beerList: {beerList}, {beerList.beerId}")
+        response = self.client.get(
+            reverse('BeerListDetails',
+            kwargs={'pk': beerList.beerId}), format="json")
+        self.logger.debug(f'response: {response.content}')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, beerList)
+
+    def test_api_update_BeerList(self):
+        """Test api can update the beer list."""
+        #beerTypes = self.test_api_create_BeerType()
+        self.test_api_create_BeerList()
+        beerList = BeerList.objects.get()
+        beerTypes = BeerTypes.objects.get()
+        self.logger.debug(f'the beerlist is: {beerList}, {beerList.beerId}, {beerList.beerType}')
+        changeBeer = {'beerName': 'citruscity', 
+                      'beerType': beerTypes.beerTypeId}
+        res = self.client.put(
+            reverse('BeerListDetails', kwargs={'pk': beerList.beerId}),
+            changeBeer, format='json'
+        )
+        self.logger.debug(f"res: {res.content}")
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
 #         
-#         self.response = self.client.post(
-#             reverse('CreateBeerListView'),
-#             self.beerListData,
-#             format="json")
-#         self.logger.debug("test test test")
-#         self.logger.debug(f"self.response: {self.response.content}")
-#         
-# 
-#     def test_api_create_BeerList(self):
-#         """Can api create beerlist"""
-#         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
-#         
+    def test_api_delete_BeerList(self):
+        """can delete a beerlist."""
+        self.test_api_create_BeerList()
+        beerList = BeerList.objects.get()
+        self.logger.debug(f"beerlist: {beerList}")
+        response = self.client.delete(
+            reverse('BeerListDetails', kwargs={'pk': beerList.beerId}),
+            format='json',
+            follow=True)
+
+        self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
+
     

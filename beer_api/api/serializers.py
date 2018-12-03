@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class BeerTypesSerializer(serializers.ModelSerializer):
     """Beer type serializer - map to json."""
     
-    owner = serializers.ReadOnlyField(source='owner.username') # ADD THIS LINE
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     
     class Meta:
@@ -36,9 +36,7 @@ class BeerListSerializer(serializers.ModelSerializer):
         queryset=BeerTypes.objects.all(),  # @UndefinedVariable
         required=True,
         write_only=False)
-    owner = serializers.ReadOnlyField(source='owner.username') # ADD THIS LINE
-
-
+    owner = serializers.ReadOnlyField(source='owner.username')
         
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
@@ -60,7 +58,7 @@ class BeerListSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """A user serializer to aid in authentication and authorization."""
 
-    bucketlists = serializers.PrimaryKeyRelatedField(
+    beerlist = serializers.PrimaryKeyRelatedField(
         many=True, queryset=BeerList.objects.all())  # @UndefinedVariable
 
     class Meta:

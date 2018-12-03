@@ -4,7 +4,6 @@ Created on Nov. 28, 2018
 @author: kjnether
 '''
 
-from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -25,7 +24,6 @@ class BeerTypes(models.Model):
     dateModified = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        """Return a human readable representation of the model instance."""
         return f"{self.beerType}"
     
 # creates user token when new user is added.

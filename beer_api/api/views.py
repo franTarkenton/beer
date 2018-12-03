@@ -21,7 +21,7 @@ class CreateBeerTypeView(generics.ListCreateAPIView):
     """defines the create behavior for beer types."""
     queryset = BeerTypes.objects.all()  # @UndefinedVariable
     serializer_class = BeerTypesSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner)
 
 
     def perform_create(self, serializer):
@@ -32,10 +32,21 @@ class CreateBeerTypeView(generics.ListCreateAPIView):
         logger.debug(f"queryset: {queryset} ")
         serializer.save(owner=self.request.user)
         
+class BeerTypesDetailedView(generics.RetrieveUpdateDestroyAPIView):
+    """RetrieveUpdateDestroyAPIView  handles the http GET, PUT and DELETE requests."""
+    queryset = BeerTypes.objects.all()  # @UndefinedVariable
+    serializer_class = BeerTypesSerializer
+    
+class BeerListDetailedView(generics.RetrieveUpdateDestroyAPIView):
+    """RetrieveUpdateDestroyAPIView  handles the http GET, PUT and DELETE requests."""
+    queryset = BeerList.objects.all()  # @UndefinedVariable
+    serializer_class = BeerListSerializer
+
+        
 class CreateBeerListView(generics.ListCreateAPIView):
     queryset = BeerList.objects.all()  # @UndefinedVariable
     serializer_class = BeerListSerializer
-    permission_classes = (permissions.IsAuthenticated, IsOwner)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner)
     
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""

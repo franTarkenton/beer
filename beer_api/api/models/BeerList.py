@@ -19,19 +19,12 @@ class BeerList(models.Model):
                                    to_field='beerTypeId', null=False,
                                    blank=False, editable=True)
     owner = models.ForeignKey('auth.User',
-                              related_name='beerList', 
+                              related_name='beerlist', 
                               on_delete=models.CASCADE)
                               
 
     dateCreated = models.DateTimeField(auto_now_add=True)
     dateModified = models.DateTimeField(auto_now=True)
     
-#     @property
-#     def beerType_name(self):
-#         return self.beerType.beerType
-
-# creates user token when new user is added.
-@receiver(post_save, sender=User)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+    def __str__(self):
+        return f"{self.beerName}"
