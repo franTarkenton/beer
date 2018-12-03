@@ -127,7 +127,7 @@ class ViewTestBeerTypeCreate(TestCase):
         )
         self.logger.debug(f"res: {res.content}")
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-#         
+         
     def test_api_delete_BeerList(self):
         """can delete a beerlist."""
         self.test_api_create_BeerList()
@@ -139,5 +139,3 @@ class ViewTestBeerTypeCreate(TestCase):
             follow=True)
 
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
-
-    
