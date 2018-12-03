@@ -10,6 +10,7 @@ ADD ./beer_api /beer/
 
 RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
+RUN python manage.py test
 RUN chmod +x djangoinit.sh
 ENTRYPOINT ["python", "/beer/manage.py", "runserver", "0.0.0.0:8000"]
 #ENTRYPOINT ["/beer/djangoinit.sh"]
