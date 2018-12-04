@@ -57,11 +57,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_swagger',
     'reset_migrations',
     'rest_framework',
     'rest_framework.authtoken',
     'api',
 ]
+
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

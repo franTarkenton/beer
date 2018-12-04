@@ -8,6 +8,7 @@ from django.conf.urls import include
 from django.conf.urls import url
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework_swagger.views import get_swagger_view
 
 from .views import CreateBeerListView
 from .views import CreateBeerTypeView
@@ -16,8 +17,10 @@ from .views import BeerListDetailedView
 from .views import UserDetailsView
 from .views import UserView
 
+schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = {
+    url(r'^$', schema_view),
     url(r'^beertypes/$', CreateBeerTypeView.as_view(), name="CreateBeerTypeView"),
     url(r'^beertypes/(?P<pk>[0-9]+)/$', BeerTypesDetailedView.as_view(), name="BeerTypesDetails"),
     url(r'^beerlist/$', CreateBeerListView.as_view(), name="CreateBeerListView"),
