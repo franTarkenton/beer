@@ -57,11 +57,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_swagger',
     'reset_migrations',
     'rest_framework',
     'rest_framework.authtoken',
     'api',
+    'rest_framework_swagger',
+
 ]
 
 LOGIN_URL = 'rest_framework:login'
@@ -111,6 +112,8 @@ DATABASES = {
 
 if 'DB_NAME' in os.environ:
     print('running prod db')
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
     # postgres config
     DATABASES['default'] = {
             'ENGINE' : 'django.db.backends.postgresql_psycopg2',
