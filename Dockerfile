@@ -5,6 +5,8 @@ ENV LANG C.UTF-8
 RUN mkdir /beer
 WORKDIR /beer
 ADD requirements.txt /beer
+ADD djangoinit.sh /beer
+
 RUN pip install -r requirements.txt
 ADD ./beer_api /beer/
 
